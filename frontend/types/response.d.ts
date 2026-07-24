@@ -1,3 +1,5 @@
+import { DecimalObj } from ".";
+
 export type Role = "CUSTOMER" | "STAFF" | "ADMIN";
 
 export interface User {
@@ -22,6 +24,21 @@ export interface Category {
   updatedAt: string;
 }
 
+export interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  price: DecimalObj;
+  salePrice: DecimalObj | null;
+  finalPrice: DecimalObj;
+  stock: number;
+  description: string | null;
+  coverImage: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Meta {
   totalItems: number;
   itemCount: number;
@@ -32,5 +49,6 @@ export interface Meta {
 
 export interface Filters {
   search: string;
+  stockStatus: "in_stock" | "low_stock" | "out_stock";
   isActive: boolean | null;
 }

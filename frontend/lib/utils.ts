@@ -10,8 +10,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const parseDecimal = (obj: DecimalObj) => {
-  return Object.assign(new Decimal(0), obj).toFixed(2);
+export const parseDecimal = (obj: DecimalObj | null) => {
+  if (!obj) return 0;
+  return +Object.assign(new Decimal(0), obj).toFixed(2);
 };
 
 export const handleServerErrors = <T extends FieldValues>(

@@ -12,6 +12,17 @@ export interface CategoryDto {
   slug: string;
 }
 
+export interface ProductDto {
+  title: string;
+  slug: string;
+  price: number;
+  salePrice: number;
+  stock: number;
+  description: string;
+  coverImage: File | null;
+  isActive: boolean;
+}
+
 export interface UpdateProfileDto {
   name: string;
   email: string;

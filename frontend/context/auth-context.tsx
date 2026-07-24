@@ -44,6 +44,8 @@ export default function AuthProvider({
         } finally {
           setAuthLoading(false);
         }
+      } else {
+        setAuthLoading(false);
       }
     };
 
