@@ -5,6 +5,7 @@ import { RouterModule } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
 import { ProfileModule } from './profile/profile.module';
 import { UsersModule } from './users/users.module';
 
@@ -13,10 +14,11 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     ProfileModule,
     UsersModule,
+    CategoriesModule,
     RouterModule.register([
       {
         path: 'admin',
-        children: [UsersModule],
+        children: [UsersModule, CategoriesModule],
       },
     ]),
     CacheModule.register({

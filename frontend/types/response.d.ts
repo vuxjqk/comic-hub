@@ -14,6 +14,14 @@ export interface User {
   updatedAt: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Meta {
   totalItems: number;
   itemCount: number;

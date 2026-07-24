@@ -7,6 +7,11 @@ export interface UserDto {
   avatar: File | null;
 }
 
+export interface CategoryDto {
+  name: string;
+  slug: string;
+}
+
 export interface UpdateProfileDto {
   name: string;
   email: string;
