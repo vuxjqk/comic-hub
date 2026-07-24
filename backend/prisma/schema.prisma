@@ -20,19 +20,45 @@ enum Role {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
-  name            String
-  email           String    @unique
-  emailVerifiedAt DateTime? @map("email_verified_at")
-  password        String?
-  googleId        String?   @unique @map("google_id")
-  phone           String?
-  address         String?
-  avatar          String?
-  isActive        Boolean   @default(true) @map("is_active")
-  role            Role      @default(CUSTOMER)
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  email               String               @unique
+  emailVerifiedAt     DateTime?            @map("email_verified_at")
+  password            String?
+  googleId            String?              @unique @map("google_id")
+  phone               String?
+  address             String?
+  avatar              String?
+  isActive            Boolean              @default(true) @map("is_active")
+  role                Role                 @default(CUSTOMER)
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+  refreshTokens       RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
 }

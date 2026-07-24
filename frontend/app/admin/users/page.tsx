@@ -43,6 +43,9 @@ export default function UsersPage() {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/users?${query.toString()}`,
+        {
+          credentials: "include",
+        },
       );
       const result = await res.json();
 
@@ -120,6 +123,7 @@ export default function UsersPage() {
           deleteUrl={deleteUrl}
           onClose={() => setDeleteUrl(null)}
           onFetch={fetchUsers}
+          withCredentials={true}
         />
       </div>
     </div>

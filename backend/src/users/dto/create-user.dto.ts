@@ -20,9 +20,9 @@ export class CreateUserDto {
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? null : String(value)))
-  phone?: string;
+  phone?: string | null;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? null : String(value)))
-  address?: string;
+  address?: string | null;
 }

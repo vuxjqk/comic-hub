@@ -62,6 +62,7 @@ export default function DialogCreate({
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/admin/users`,
         {
+          credentials: "include",
           method: "POST",
           body: formData,
         },

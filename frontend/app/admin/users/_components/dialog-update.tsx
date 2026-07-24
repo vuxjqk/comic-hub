@@ -64,6 +64,7 @@ export default function DialogUpdate({
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/${updateUrl}`,
         {
+          credentials: "include",
           method: "PATCH",
           body: formData,
         },

@@ -18,10 +18,12 @@ export default function DialogDelete({
   deleteUrl,
   onClose,
   onFetch,
+  withCredentials = false,
 }: {
   deleteUrl: string | null;
   onClose: () => void;
   onFetch: () => Promise<void>;
+  withCredentials?: boolean;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -30,8 +32,15 @@ export default function DialogDelete({
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-      const res = await fetch(`${apiUrl}/${deleteUrl}`, { method: "DELETE" });
+      const options: RequestInit = {
+        method: "DELETE",
+        ...(withCredentials && { credentials: "include" }),
+      };
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/${deleteUrl}`,
+        options,
+      );
       const result = await res.json();
 
       toast[result.success ? "success" : "error"](result.message);
@@ -62,7 +71,7 @@ export default function DialogDelete({
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" variant="destructive" disabled={loading}>
               {loading ? <Spinner /> : "Delete"}
             </Button>
           </DialogFooter>

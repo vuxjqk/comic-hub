@@ -6,6 +6,7 @@ import {
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import { resolve } from 'path';
 
@@ -13,7 +14,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  });
+  app.use(cookieParser());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(
     new ValidationPipe({
@@ -29,8 +34,6 @@ async function bootstrap() {
         });
 
         return new BadRequestException({
-          success: false,
-          message: 'Bad Request',
           errors: errors,
         });
       },

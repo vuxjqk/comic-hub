@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from 'crypto';
 import { mkdir, unlink, writeFile } from 'fs/promises';
 import { dirname, extname, resolve } from 'path';
 
@@ -37,4 +38,16 @@ export const deleteFile = async (relativePath: string) => {
 
     console.error(`Error: ${error}`);
   }
+};
+
+export const generateRandomString = () => {
+  return randomBytes(32).toString('hex');
+};
+
+export const generateHash = (data: string) => {
+  return createHash('sha256').update(data).digest('hex');
+};
+
+export const getOtp = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };

@@ -50,8 +50,6 @@ export class UsersService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException({
-            success: false,
-            message: 'Bad Request',
             errors: {
               email: ['email must be unique'],
             },
@@ -126,10 +124,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException({
-        success: false,
-        message: 'User not found.',
-      });
+      throw new NotFoundException('User not found.');
     }
 
     if (updateUserDto.password) {
@@ -170,8 +165,6 @@ export class UsersService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new BadRequestException({
-            success: false,
-            message: 'Bad Request',
             errors: {
               email: ['email must be unique'],
             },
@@ -189,10 +182,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException({
-        success: false,
-        message: 'User not found.',
-      });
+      throw new NotFoundException('User not found.');
     }
 
     try {
@@ -212,10 +202,7 @@ export class UsersService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {
-          throw new BadRequestException({
-            success: false,
-            message: 'Cannot delete user in use.',
-          });
+          throw new BadRequestException('Cannot delete user in use.');
         }
       }
 

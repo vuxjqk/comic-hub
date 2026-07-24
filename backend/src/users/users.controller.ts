@@ -9,17 +9,26 @@ import {
   Post,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+import { Role } from 'generated/prisma/client';
 import { memoryStorage } from 'multer';
+
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { VerifiedGuard } from 'src/auth/guards/verified.guard';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindAllUsersDto } from './dto/find-all-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
+@UseGuards(JwtAuthGuard, VerifiedGuard, RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -32,8 +41,6 @@ export class UsersController {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/i)) {
           return callback(
             new BadRequestException({
-              success: false,
-              message: 'Bad Request',
               errors: {
                 avatar: ['avatar must be an image (jpg, jpeg, png, gif, webp)'],
               },
@@ -70,8 +77,6 @@ export class UsersController {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp)$/i)) {
           return callback(
             new BadRequestException({
-              success: false,
-              message: 'Bad Request',
               errors: {
                 avatar: ['avatar must be an image (jpg, jpeg, png, gif, webp)'],
               },

@@ -4,6 +4,7 @@ import { FieldPath, FieldValues, UseFormSetError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 import { DecimalObj } from "@/types";
+import { Role } from "@/types/response";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -45,4 +46,16 @@ export const slugify = (str: string) => {
     .replace(/[^a-z0-9 -]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
+};
+
+export const getCookieOptions = (maxAge: number) => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/",
+  maxAge,
+});
+
+export const getRedirectUrl = (user: { role: Role } | null) => {
+  return !user || user.role === "CUSTOMER" ? "/" : "/admin/dashboard";
 };
